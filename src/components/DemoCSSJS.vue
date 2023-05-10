@@ -1,9 +1,9 @@
 /* eslint-disable */
 <template>
   <div class="box">
-    <div class="dragbox" id="dragbox">
+    <div class="dragbox" id="dragbox" ref="dragbox">
       <div class="dragcon">
-        <div class="ball" id="ball"></div>
+        <div class="ball" id="ball" ref="ball"></div>
       </div>
     </div>
   </div>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'DemoDemo',
+  name: 'DemoCSSJS',
   props: {
     msg: String
   },
@@ -21,8 +21,8 @@ export default {
     }
   },
   mounted() {
-    const dragbox = document.getElementById('dragbox')
-    const ball = document.getElementById('ball')
+    const dragbox = this.$refs.dragbox
+    const ball = this.$refs.ball
 
     document.addEventListener('touchstart', (ev) => {
       if (!ball.contains(ev.target)) {
@@ -33,8 +33,8 @@ export default {
       // window.is_start = false;
       dragbox.classList.remove('move');
     })
-    dragbox.scrollLeft = 50;
-    dragbox.scrollTop = 50;
+    dragbox.scrollLeft = 0;
+    dragbox.scrollTop = dragbox.offsetHeight;
 
   },
   directives: {
@@ -143,11 +143,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
 .box {
   width: 100vw;
   height: 100vh;
   background-image: url('../assets/wolf.jpg');
+}
+:-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
 }
 html,
 body {
@@ -174,17 +180,17 @@ section {
 }
 
 .dragcon {
-  width: calc(200% - 50px);
-  height: calc(200% - 50px);
+  width: calc(200% - 100px);
+  height: calc(200% - 100px);
 }
 
 .ball {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
   background-color: cornflowerblue;
   left: 50%;
-  top: 10%;
+  top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: all;
