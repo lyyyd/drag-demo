@@ -3,11 +3,7 @@
   <div class="box">
     <div class="dragbox" id="dragbox">
       <div class="dragcon">
-        <div v-move class="ball" id="ball">
-          点击按钮
-          <br>
-          唤醒窗口
-        </div>
+        <div class="ball" id="ball"></div>
       </div>
     </div>
   </div>
@@ -15,7 +11,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'DemoDemo',
   props: {
     msg: String
   },
@@ -25,7 +21,21 @@ export default {
     }
   },
   mounted() {
-    // this.setDomDrop('ball')
+    const dragbox = document.getElementById('dragbox')
+    const ball = document.getElementById('ball')
+
+    document.addEventListener('touchstart', (ev) => {
+      if (!ball.contains(ev.target)) {
+        dragbox.classList.add('move');
+      }
+    })
+    document.addEventListener('touchend', () => {
+      // window.is_start = false;
+      dragbox.classList.remove('move');
+    })
+    dragbox.scrollLeft = 50;
+    dragbox.scrollTop = 50;
+
   },
   directives: {
     move: {
@@ -57,7 +67,7 @@ export default {
           let DOMEndTop = null
           // const _this=this;
           // 鼠标按下
-          el.onmousedown = function(e) {
+          el.onmousedown = function (e) {
             //鼠标按下事件
             e = e || window.event //事件对象
             StartX = e.clientX //鼠标按下X的坐标
@@ -73,9 +83,9 @@ export default {
             console.log('this.offsetHeight', el.offsetHeight)
             console.log('this.offsetWidth', el.offsetWidth)
             // 获取元素的高
-            document.onmousemove = function(e) {
+            document.onmousemove = function (e) {
               // 赋值为拖拽
-              this.isLiveDrop=false;
+              this.isLiveDrop = false;
               //鼠标移动事件
               e = e || window.event
               MoveX = e.clientX //鼠标移动X的坐标
@@ -104,19 +114,19 @@ export default {
                 DOMEndTop = MaxY + DOMHeight / 2
               }
               //赋值给left和top
-              el.style.top =DOMEndTop +'px'
-              el.style.left =DOMEndLeft +'px'
-            }     
-              //鼠标抬起事件
-            document.onmouseup = function() {
-      
+              el.style.top = DOMEndTop + 'px'
+              el.style.left = DOMEndLeft + 'px'
+            }
+            //鼠标抬起事件
+            document.onmouseup = function () {
+
               //清除移动和抬起事件
               this.onmousemove = this.onmouseup = null
               // 区分拖拽还是点击事件
-              if(this.isLiveDrop){
+              if (this.isLiveDrop) {
                 // this.showLiveList()
               }
-              this.isLiveDrop=true;
+              this.isLiveDrop = true;
             }
             return false //阻止默认事件
           }
@@ -127,30 +137,21 @@ export default {
   },
   methods: {
   }
-  
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
 .box {
   width: 100vw;
   height: 100vh;
   background-image: url('../assets/wolf.jpg');
 }
-:-webkit-scrollbar {
-  width: 0 !important;
-}
-::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0;
-}
-
-
 html,
 body {
   margin: 0;
-  height: 100%;
 }
 
 section {
@@ -158,43 +159,34 @@ section {
 }
 
 .dragbox {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
+  left: 0;
+  top: 0;
   overflow: auto;
-  overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
 }
 
+.dragbox.move {
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .dragcon {
-  width: calc(200% - 100px);
-  height: calc(200% - 100px);
+  width: calc(200% - 50px);
+  height: calc(200% - 50px);
 }
 
 .ball {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   background-color: cornflowerblue;
   left: 50%;
-  top: 50%;
-  right: 0px;
-  top: 50px;
+  top: 10%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: all;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  color: #ffffff;
-}
-
-.body {
-  position: relative;
-  height: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
 }
 </style>

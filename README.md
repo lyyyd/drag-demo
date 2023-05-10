@@ -1,4 +1,6 @@
 # drag-demo
+vue 项目 PC、H5移动端实现悬浮图标自由拖动，纯CSS实现
+
 
 ## Project setup
 ```
